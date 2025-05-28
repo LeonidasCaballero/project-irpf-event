@@ -6,13 +6,25 @@ const INTERVAL_MS = 20_000;
 
 const RecurringPopup: React.FC = () => {
   const [visible, setVisible] = useState(true);
+  const remainingRef = useRef<number>(INTERVAL_MS / 1000);
   const timerRef = useRef<number | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   // Schedule next appearance
   const scheduleNext = () => {
     timerRef.current = window.setTimeout(() => {
       setVisible(true);
     }, INTERVAL_MS);
+
+    // reset and start countdown interval for logging
+    remainingRef.current = INTERVAL_MS / 1000;
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    intervalRef.current = window.setInterval(() => {
+      remainingRef.current -= 1;
+      console.log(`[Popup] Oculto. Volverá a aparecer en ${remainingRef.current}s`);
+    }, 1000);
   };
 
   // When popup is closed, start timer
@@ -23,12 +35,21 @@ const RecurringPopup: React.FC = () => {
       // If popup opened manually, clear any pending timer to avoid duplicate
       clearTimeout(timerRef.current);
       timerRef.current = null;
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      console.log('[Popup] Visible');
     }
 
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
         timerRef.current = null;
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [visible]);
@@ -37,6 +58,7 @@ const RecurringPopup: React.FC = () => {
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []);
 
