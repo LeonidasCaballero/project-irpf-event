@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Menu, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface NavbarProps {
   onSearchClick: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onSearchClick }) => {
+  const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -37,11 +39,24 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchClick }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="nav-link">Inicio</Link>
-          <Link to="/section/1" className="nav-link">Concepto</Link>
-          <Link to="/section/2" className="nav-link">Rendimientos</Link>
-          <Link to="/section/3" className="nav-link">Gastos Deducibles</Link>
-          <Link to="/calculadora" className="nav-link">Calculadora</Link>
+          <Link to="/" className="nav-link">{t('nav.home')}</Link>
+          <Link to="/section/1" className="nav-link">{t('nav.concept')}</Link>
+          <Link to="/section/2" className="nav-link">{t('nav.incomes')}</Link>
+          <Link to="/section/3" className="nav-link">{t('nav.deductions')}</Link>
+          <Link to="/calculadora" className="nav-link">{t('nav.calculator')}</Link>
+          <select
+            value={i18n.language}
+            onChange={e => {
+              const lang = e.target.value;
+              i18n.changeLanguage(lang);
+              localStorage.setItem('lang', lang);
+            }}
+            className="border border-stone-300 rounded px-2 py-1 text-sm focus:outline-none"
+            aria-label={t('nav.language')}
+          >
+            <option value="es">ES</option>
+            <option value="en">EN</option>
+          </select>
           <button 
             onClick={onSearchClick}
             className="ml-2 p-2 rounded-full hover:bg-stone-200 transition-colors"
@@ -74,11 +89,24 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchClick }) => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-stone-200 py-4 px-4 shadow-md">
           <nav className="flex flex-col space-y-4">
-            <Link to="/" className="nav-link py-2">Inicio</Link>
-            <Link to="/section/1" className="nav-link py-2">Concepto</Link>
-            <Link to="/section/2" className="nav-link py-2">Rendimientos</Link>
-            <Link to="/section/3" className="nav-link py-2">Gastos Deducibles</Link>
-            <Link to="/calculadora" className="nav-link py-2">Calculadora</Link>
+            <Link to="/" className="nav-link py-2">{t('nav.home')}</Link>
+            <Link to="/section/1" className="nav-link py-2">{t('nav.concept')}</Link>
+            <Link to="/section/2" className="nav-link py-2">{t('nav.incomes')}</Link>
+            <Link to="/section/3" className="nav-link py-2">{t('nav.deductions')}</Link>
+            <Link to="/calculadora" className="nav-link py-2">{t('nav.calculator')}</Link>
+            <select
+              value={i18n.language}
+              onChange={e => {
+                const lang = e.target.value;
+                i18n.changeLanguage(lang);
+                localStorage.setItem('lang', lang);
+              }}
+              className="border border-stone-300 rounded px-2 py-1 text-sm focus:outline-none"
+              aria-label={t('nav.language')}
+            >
+              <option value="es">ES</option>
+              <option value="en">EN</option>
+            </select>
           </nav>
         </div>
       )}
