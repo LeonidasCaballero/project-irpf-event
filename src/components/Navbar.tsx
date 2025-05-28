@@ -41,6 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchClick }) => {
           <Link to="/section/1" className="nav-link">Concepto</Link>
           <Link to="/section/2" className="nav-link">Rendimientos</Link>
           <Link to="/section/3" className="nav-link">Gastos Deducibles</Link>
+          <Link to="/calculadora" className="nav-link">Calculadora</Link>
           <button 
             onClick={onSearchClick}
             className="ml-2 p-2 rounded-full hover:bg-stone-200 transition-colors"
@@ -77,6 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearchClick }) => {
             <Link to="/section/1" className="nav-link py-2">Concepto</Link>
             <Link to="/section/2" className="nav-link py-2">Rendimientos</Link>
             <Link to="/section/3" className="nav-link py-2">Gastos Deducibles</Link>
+            <Link to="/calculadora" className="nav-link py-2">Calculadora</Link>
           </nav>
         </div>
       )}

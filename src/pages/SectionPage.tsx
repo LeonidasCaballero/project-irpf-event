@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import TableOfContents from '../components/TableOfContents';
@@ -8,7 +8,6 @@ const SectionPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const currentSection = sectionData.find(section => section.id === id);
   
@@ -22,7 +21,6 @@ const SectionPage = () => {
         const yOffset = -100;
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
-        setActiveSection(hash);
       }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -37,7 +35,6 @@ const SectionPage = () => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
             // Update URL hash without scrolling
             const newUrl = `${location.pathname}#${entry.target.id}`;
             window.history.replaceState(null, '', newUrl);
