@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import SearchModal from './SearchModal';
+import RecurringPopup from './RecurringPopup';
 
 const Layout = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -17,6 +18,7 @@ const Layout = () => {
       </main>
       <Footer />
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <RecurringPopup />
     </div>
   );
 };
